@@ -9,10 +9,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-		    echo 'Test begin'
-                    // Build the Docker image
-                    sh 'docker build -t alphatango1214/hello ./helloWorld/'
-		    echo 'This where the change happend'
+		    // Build the Docker image
+                    sh 'docker build -t alphatango1214/test ./helloWorld/'
                 }
             }
         }
@@ -21,7 +19,7 @@ pipeline {
                 script {
                     // Push the Docker image to Docker Hub
                     docker.withRegistry('', 'docker_hub') {
-                        docker.image('alphatango1214/hello').push('latest')
+                        docker.image('alphatango1214/test').push('latest')
                     }
                 }
             }
