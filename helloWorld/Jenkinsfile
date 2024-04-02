@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker_hub')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+		    echo 'Test begin'
+                    // Build the Docker image
+                    sh 'docker build -t genesisalpha456/hello ./helloWorld/'
+		    echo 'This where the change happend'
+                }
+            }
+        }
+        stage('Push') {
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    docker.withRegistry('', 'docker_hub') {
+                        docker.image('genesisalpha456/hello').push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
