@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
 		    // Build the Docker image
-                    sh 'docker build -t alphatango1214/test ./helloWorld/'
+                    sh 'docker build -t alphatango1214/test .'
                 }
             }
         }
