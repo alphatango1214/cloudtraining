@@ -11,7 +11,7 @@ pipeline {
                 script {
 		    echo 'Test begin'
                     // Build the Docker image
-                    sh 'docker build -t genesisalpha456/hello ./helloWorld/'
+                    sh 'docker build -t alphatango1214/test ./helloWorld/'
 		    echo 'This where the change happend'
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Push the Docker image to Docker Hub
                     docker.withRegistry('', 'docker_hub') {
-                        docker.image('genesisalpha456/hello').push('latest')
+                        docker.image('alphatango1214/test').push('latest')
                     }
                 }
             }
