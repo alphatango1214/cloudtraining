@@ -1,73 +1,40 @@
 pipeline {
-
     agent any
 
- 
-
-    options {
-
-        buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
-
-        timestamps()
-
-    }
-
- 
-
     environment {
-
-        registryCredential = credentials('docker_hub')
-
+        DOCKERHUB_CREDENTIALS = credentials('docker_hub')
     }
-
- 
 
     stages {
-
         stage('Build') {
-
             steps {
-
                 script {
-
-                    sh "docker build -t alphatango1214/test:${BUILD_NUMBER} ."
-
+		    echo 'Test begin'
+                    // Build the Docker image
+                    sh 'docker build -t genesisalpha456/hello ./helloWorld/'
+		    echo 'This where the change happend'
                 }
-
             }
-
         }
-
-        stage('Login to Docker Hub') {
-
+        stage('Push') {
             steps {
-
                 script {
-
-                    sh "echo $registryCredential_PSW | docker login -u $registryCredential_USR --password-stdin"
-
+                    // Push the Docker image to Docker Hub
+                    docker.withRegistry('', 'docker_hub') {
+                        docker.image('genesisalpha456/hello').push('latest')
+                    }
                 }
-
             }
-
         }
-
- 
-
-        stage('Push Image') {
-
-            steps {
-
-                script {
-
-                    sh "docker push alphatango1214/test:${BUILD_NUMBER}"
-
-                }
-
-            }
-
-        }
-
+	stage('Connect_ssh'){
+	    steps {
+		script {
+			// Connect to the other instance using ssh
+			            // Connect to the other instance using ssh
+	                sh '''ssh -T jenkins@138.197.116.169'''
+			
+		   }
+		}
+	}
     }
-
 }
