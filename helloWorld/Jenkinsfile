@@ -29,7 +29,7 @@ pipeline {
         	stage('Connect_ssh') {
 	    steps {
 	        script {
-	            sshagent(credentials: ['ssh_connect']) {
+	            sshagent(credentials: ['ssh_agent']) {
 	                sh 'ssh -o StrictHostKeyChecking=no root@165.232.129.213 "docker pull alphatango1214/test:latest && docker run -d -p 8777:80 alphatango1214/test:latest"'
 	            }
 	        }
